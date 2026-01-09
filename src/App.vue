@@ -43,18 +43,14 @@
 
           <!-- Location Input with Search Icon Button -->
           <div class="relative flex-1 min-w-[200px] md:w-full">
-            <input v-model="filters.location" type="text" placeholder="Austin, TX"
+            <input type="text" placeholder="Austin, TX"
               class="w-full px-4 py-2.5 pr-[120px] border border-blue-600 rounded-lg text-sm bg-white text-gray-900 focus:outline-none focus:border-blue-600 transition-all" />
-            <!-- Clear X Icon in Circle -->
-            <button v-if="filters.location" @click="filters.location = ''"
-              class="absolute right-[48px] top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gray-200 border-none flex items-center justify-center cursor-pointer text-gray-500 hover:text-gray-900 hover:bg-gray-300 transition-all">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 4l-8 8M4 4l8 8"></path>
-              </svg>
-            </button>
+
+
             <!-- Search Icon in Blue Circle Button -->
             <button
-              class="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-blue-600 border-none flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
+              class="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-blue-600 border-none flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors"
+              type="button">
               <svg class="text-white" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2.5">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -62,6 +58,7 @@
               </svg>
             </button>
           </div>
+
 
           <!-- For Sale Dropdown - Active State (Blue) -->
           <div class="relative hidden lg:block">
@@ -306,56 +303,56 @@ const properties = ref<Property[]>([
     ],
     isFavorite: false,
   },
-  {
-    id: 3,
-    title: "Multi-family Home",
-    type: "Multi-family Home For Sale",
-    status: "sold",
-    daysOnMarket: "10 days on Houzeo",
-    price: 2149000,
-    beds: 5,
-    baths: 4,
-    sqft: 2350,
-    address: "42 Greenway Ct",
-    city: "Austin",
-    state: "TX 78746",
-    images: [
-      "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1200",
-      "https://images.pexels.com/photos/259733/pexels-photo-259733.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    isFavorite: false,
-  },
 
-  // Mock more properties
-  ...Array.from({ length: 47 }, (_, i) => ({
-    id: i + 4,
-    title:
+  // ✅ Mock properties
+  ...Array.from({ length: 47 }, (_, i) => {
+    const status: "for-sale" | "sold" = i % 4 === 0 ? "sold" : "for-sale";
+
+    const propertyType =
       i % 3 === 0
-        ? "House For Sale"
+        ? "House"
         : i % 3 === 1
-          ? "Condo For Sale"
-          : "Multi-family Home For Sale",
-    type:
-      i % 3 === 0
-        ? "House For Sale"
-        : i % 3 === 1
-          ? "Condo For Sale"
-          : "Multi-family Home For Sale",
-    status: i % 4 === 0 ? "sold" : "for-sale", // ✅ status works
-    daysOnMarket: `${Math.floor(Math.random() * 30) + 1} days on Houzeo`,
-    price: Math.floor(Math.random() * 5000000) + 200000,
-    beds: Math.floor(Math.random() * 5) + 1,
-    baths: Math.floor(Math.random() * 4) + 1,
-    sqft: Math.floor(Math.random() * 3000) + 800,
-    address: `${Math.floor(Math.random() * 9999) + 1} Sample St`,
-    city: "Austin",
-    state: "TX 78701",
-    images: [
-      "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    ],
-    isFavorite: false,
-  })),
+          ? "Condo"
+          : "Multi-family Home";
+
+    return {
+      id: i + 3,
+
+      title:
+        status === "sold"
+          ? `${propertyType} Sold`
+          : `${propertyType} For Sale`,
+
+      type:
+        status === "sold"
+          ? `${propertyType} Sold`
+          : `${propertyType} For Sale`,
+
+      status,
+
+      daysOnMarket:
+        status === "sold"
+          ? `Sold ${Math.floor(Math.random() * 30) + 1} days ago`
+          : `${Math.floor(Math.random() * 30) + 1} days on Houzeo`,
+
+      price: Math.floor(Math.random() * 5_000_000) + 200_000,
+      beds: Math.floor(Math.random() * 5) + 1,
+      baths: Math.floor(Math.random() * 4) + 1,
+      sqft: Math.floor(Math.random() * 3000) + 800,
+
+      address: `${Math.floor(Math.random() * 9999) + 1} Sample St`,
+      city: "Austin",
+      state: "TX 78701",
+
+      images: [
+        "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1200",
+      ],
+
+      isFavorite: false,
+    };
+  }),
 ]);
+
 
 
 // Total properties count (for display)
@@ -364,18 +361,7 @@ const totalPropertiesCount = 2010;
 const filteredProperties = computed(() => {
   let list = [...properties.value];
 
-  // ✅ LOCATION FILTER
-  if (filters.location.trim()) {
-    const term = filters.location.toLowerCase();
-    list = list.filter(
-      (p) =>
-        p.city.toLowerCase().includes(term) ||
-        p.state.toLowerCase().includes(term) ||
-        p.address.toLowerCase().includes(term)
-    );
-  }
-
-  // ✅ STATUS FILTER (FOR SALE / SOLD)
+  // ✅ STATUS FILTER
   if (filters.status) {
     list = list.filter((p) => p.status === filters.status);
   }
@@ -400,6 +386,7 @@ const filteredProperties = computed(() => {
 
   return list;
 });
+
 
 
 const toggleFavorite = (id: number) => {
