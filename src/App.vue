@@ -39,7 +39,10 @@
     <section class="flex flex-col gap-4">
       <!-- Filter Bar -->
       <div class="bg-white border-b border-gray-200">
-        <div class="max-w-[1440px] mx-auto px-4 py-3 flex items-center gap-3 flex-wrap">
+        <div class="max-w-[1440px] mx-auto px-4 py-3
+         flex flex-col gap-3
+         lg:flex-row lg:items-center lg:gap-3">
+
 
           <!-- Location Input with Search Icon Button -->
           <div class="relative flex-1 min-w-[200px] md:w-full">
@@ -174,10 +177,17 @@
 
     </section>
 
-    <main class="max-w-[1440px] mx-auto px-6 py-4 hidden lg:grid grid-cols-[50%_50%] gap-6 min-h-[calc(100vh-96px)]">
+    <main class="max-w-[1440px] mx-auto px-4 py-4
+         grid grid-cols-1
+         lg:grid-cols-[50%_50%]
+         gap-4 lg:gap-6
+         min-h-[calc(100vh-96px)]">
 
       <!-- ================= LEFT MAP ================= -->
-      <section class="sticky top-[96px] h-[calc(100vh-120px)] rounded-xl overflow-hidden bg-gray-200 shadow-sm">
+      <section class="hidden lg:block sticky top-[96px]
+         h-[calc(100vh-120px)]
+         rounded-xl overflow-hidden bg-gray-200 shadow-sm">
+
 
         <iframe class="w-full h-full border-0" loading="lazy" title="Map" referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31771654.566996552!2d-113.74204452401878!3d37.275732829492106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809f5f46ff8af4fd%3A0x8a92f1b0c4c9b8b1!2sUnited%20States!5e0!3m2!1sen!2sus!4v1700000000000">

@@ -27,7 +27,7 @@
     </div>
 
     <!-- CONTENT -->
-    <div class="p-5 space-y-3">
+    <div class="p-4 lg:p-5 space-y-2 lg:space-y-3">
       <!-- Type + views -->
       <div class="flex items-center justify-between">
         <span class="flex items-center gap-2 px-3 py-1 rounded-full border text-sm font-medium">
